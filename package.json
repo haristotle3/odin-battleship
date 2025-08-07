@@ -8,7 +8,7 @@
     "build": "webpack",
     "merge": "git checkout gh-pages && git merge main --no-edit && git add dist -f && git commit -m 'Deployment Commit'",
     "dev": "webpack serve",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "git subtree push --prefix dist origin gh-pages && git checkout main"
   },
   "repository": {
     "type": "git",
