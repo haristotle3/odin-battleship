@@ -1,13 +1,13 @@
 export default class Ship {
   constructor(shipLength, name) {
     this.length = shipLength;
-    this.name = name
+    this.name = name;
     this.timesHit = 0;
   }
 
-  hit(location) {
-    if (location < 0 || location >= this.length)
-      throw new Error("Is not a hit");
+  hit() {
+    if (this.isSunk()) throw new Error(`${this.name} already sunk`);
+    
     this.timesHit++;
     return 0;
   }
