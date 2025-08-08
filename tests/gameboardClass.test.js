@@ -3,9 +3,9 @@ import Ship from "../src/shipClass.js";
 
 describe("Test Gameboard ship placement", () => {
   const gameboard = new Gameboard();
-  const destroyer = new Ship(2);
-  const submarine = new Ship(3);
-  const battleship = new Ship(4);
+  const destroyer = new Ship(2, "Destroyer");
+  const submarine = new Ship(3, "Submarine");
+  const battleship = new Ship(4, "Battleship");
 
   test("Place destroyer (valid coordinate) (1)", () => {
     expect(gameboard.placeShip(destroyer, 0, 0, true)).toBe(1);

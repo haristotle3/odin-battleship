@@ -1,8 +1,8 @@
 import Ship from "../src/shipClass.js";
 
 describe("Test Ship Class", () => {
-  const carrier = new Ship(5);
-  const cruiser = new Ship(3);
+  const carrier = new Ship(5, "Carrier");
+  const cruiser = new Ship(3, "Cruiser");
 
   test("Carrier Length", () => {
     expect(carrier.length).toBe(5);
