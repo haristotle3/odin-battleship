@@ -2,12 +2,14 @@ export default class Gameboard {
   #ROW_SIZE = 10;
   #COL_SIZE = 10;
   #ATTACKED = -1;
+  #ALL_SHIPS_SUNK = 100;
 
   constructor() {
     this.board = Array.from({ length: this.#ROW_SIZE }, () =>
       new Array(this.#COL_SIZE).fill(null)
     );
     this.shipLocations = new Map();
+    this.ships = new Set();
   }
 
   #isValidStartLocation(shipLength, startY, startX, isHorizontal) {
@@ -56,8 +58,9 @@ export default class Gameboard {
       });
     }
 
-    // save to map
+    // save to map and set
     this.shipLocations.set(ship.name, shipPlacementCoordinates);
+    this.ships.add(ship);
     // update board
     shipPlacementCoordinates.forEach((coordinate) => {
       const [y, x] = [coordinate[0], coordinate[1]];
@@ -67,10 +70,16 @@ export default class Gameboard {
     return 1;
   }
 
+  #allShipsSunk() {
+    const shipsArray = [...this.ships];
+    return shipsArray.every((ship) => ship.isSunk());
+  }
+
   receiveAttack(y, x) {
     // returns -1 on invalid shot
     // returns 0 on missed shot
     // returns 1 on hit
+    // returns 100 on all ships sunk
 
     // handle invalid shot (already attacked)
     if (this.board[y][x] === this.#ATTACKED) return -1;
@@ -85,6 +94,8 @@ export default class Gameboard {
     const hitShip = this.board[y][x];
     hitShip.hit();
     this.board[y][x] = this.#ATTACKED;
+
+    if (this.#allShipsSunk()) return this.#ALL_SHIPS_SUNK;
 
     return 1;
   }

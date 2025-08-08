@@ -7,6 +7,10 @@ const submarine = new Ship(3, "Submarine");
 const battleship = new Ship(4, "Battleship");
 
 describe("Test Gameboard ship placement", () => {
+  // afterAll(() => {
+  //   console.table(gameboard.board);
+  // });
+
   test("Place destroyer (valid coordinate) (1)", () => {
     expect(gameboard.placeShip(destroyer, 0, 0, true)).toBe(1);
   });
@@ -69,6 +73,10 @@ describe("Test Gameboard ship placement", () => {
 });
 
 describe("Test Gameboard receive attack functionality", () => {
+  // afterEach(() => {
+  //   console.table(gameboard.board);
+  // });
+
   test("Missed shot (0)", () => {
     expect(gameboard.receiveAttack(5, 5)).toBe(0);
   });
@@ -99,5 +107,27 @@ describe("Test Gameboard receive attack functionality", () => {
 
   test("Invalid shot (3)", () => {
     expect(gameboard.receiveAttack(5, 0)).toBe(-1);
+  });
+});
+
+describe("Test for all ships sunk", () => {
+  // Previous tests have sunk one of the two ships currently on the board
+
+  // afterAll(() => {
+  //   console.table(gameboard.board);
+  // });
+
+  test("All ships not sunk", () => {
+    expect(gameboard.receiveAttack(1, 6)).not.toBe(100);
+  });
+
+  test("Attack remaining ship", () => {
+    gameboard.receiveAttack(1, 6);
+    gameboard.receiveAttack(1, 8);
+    gameboard.receiveAttack(1, 7);
+  });
+
+  test("All ships sunk", () => {
+    expect(gameboard.receiveAttack(1, 9)).toBe(100);
   });
 });
