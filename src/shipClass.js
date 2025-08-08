@@ -12,7 +12,11 @@ export default class Ship {
 
     this.timesHit++;
     this.#damageArray[location] = true;
-    
+
     return 0;
+  }
+
+  isSunk() {
+    return this.timesHit === this.length;
   }
 }

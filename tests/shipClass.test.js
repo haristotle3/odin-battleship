@@ -8,16 +8,8 @@ describe("Test Ship Class", () => {
     expect(carrier.length).toBe(5);
   });
 
-  test("cruiser Length", () => {
-    expect(cruiser.length).toBe(3);
-  });
-
   test("Carrier times hit", () => {
     expect(carrier.timesHit).toBe(0);
-  });
-
-  test("Cruiser times hit", () => {
-    expect(cruiser.timesHit).toBe(0);
   });
 
   test("Hit Carrier (0)", () => {
@@ -36,6 +28,30 @@ describe("Test Ship Class", () => {
     expect(() => carrier.hit(6)).toThrow(Error("Is not a hit"));
   });
 
+  test("Sink Carrier (not sunk)", () => {
+    expect(carrier.isSunk()).toBe(false);
+  });
+
+  test("Hit Carrier (3)", () => {
+    expect(carrier.hit(3)).toBe(0);
+  });
+
+  test("Hit Carrier (4)", () => {
+    expect(carrier.hit(4)).toBe(0);
+  });
+
+  test("Sink Carrier (sunk)", () => {
+    expect(carrier.isSunk()).toBe(true);
+  });
+
+  test("Cruiser Length", () => {
+    expect(cruiser.length).toBe(3);
+  });
+
+  test("Cruiser times hit", () => {
+    expect(cruiser.timesHit).toBe(0);
+  });
+
   test("Hit Cruiser (0)", () => {
     expect(cruiser.hit(0)).toBe(0);
   });
@@ -44,11 +60,19 @@ describe("Test Ship Class", () => {
     expect(cruiser.hit(1)).toBe(0);
   });
 
+  test("Sink Cruiser (not sunk)", () => {
+    expect(cruiser.isSunk()).toBe(false);
+  });
+
   test("Hit Cruiser (2)", () => {
     expect(cruiser.hit(2)).toBe(0);
   });
 
   test("Hit Cruiser (invalid)", () => {
     expect(() => cruiser.hit(4)).toThrow(Error("Is not a hit"));
+  });
+
+  test("Sink Cruiser (sunk)", () => {
+    expect(cruiser.isSunk()).toBe(true);
   });
 });
