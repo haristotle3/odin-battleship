@@ -12,11 +12,11 @@ describe("Test Gameboard ship placement", () => {
   });
 
   test("Place submarine (overlapping with other ships) (1)", () => {
-    expect(gameboard.placeShip(submarine, 0, 0), true).toBe(0);
+    expect(gameboard.placeShip(submarine, 0, 0, true)).toBe(0);
   });
 
   test("Place submarine (overlapping with other ships) (2)", () => {
-    expect(gameboard.placeShip(submarine, 0, 1), true).toBe(0);
+    expect(gameboard.placeShip(submarine, 0, 1, true)).toBe(0);
   });
 
   test("Place destroyer (valid coordinate) (2)", () => {
@@ -24,7 +24,7 @@ describe("Test Gameboard ship placement", () => {
   });
 
   test("Place submarine (overlapping with other ships) (3)", () => {
-    expect(gameboard.placeShip(submarine, 3, 0), false).toBe(0);
+    expect(gameboard.placeShip(submarine, 3, 0, false)).toBe(0);
   });
 
   test("Place destroyer (invalid coordinate) (out of bounds) (1)", () => {
@@ -40,11 +40,11 @@ describe("Test Gameboard ship placement", () => {
   });
 
   test("Place submarine (overlapping with other ships) (4)", () => {
-    expect(gameboard.placeShip(submarine, 1, 5), true).toBe(0);
+    expect(gameboard.placeShip(submarine, 1, 5, true)).toBe(0);
   });
 
   test("Place submarine (overlapping with other ships) (5)", () => {
-    expect(gameboard.placeShip(submarine, 1, 4), true).toBe(0);
+    expect(gameboard.placeShip(submarine, 1, 4, true)).toBe(0);
   });
 
   test("Place battleship (invalid coordinate) (out of bounds) (1)", () => {
