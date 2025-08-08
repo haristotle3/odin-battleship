@@ -1,6 +1,8 @@
 export default class Gameboard {
   #ROW_SIZE = 10;
   #COL_SIZE = 10;
+  #ATTACKED = -1;
+
   constructor() {
     this.board = Array.from({ length: this.#ROW_SIZE }, () =>
       new Array(this.#COL_SIZE).fill(null)
@@ -61,6 +63,28 @@ export default class Gameboard {
       const [y, x] = [coordinate[0], coordinate[1]];
       this.board[y][x] = ship;
     });
+
+    return 1;
+  }
+
+  receiveAttack(y, x) {
+    // returns -1 on invalid shot
+    // returns 0 on missed shot
+    // returns 1 on hit
+
+    // handle invalid shot (already attacked)
+    if (this.board[y][x] === this.#ATTACKED) return -1;
+
+    // handle missed shot
+    if (this.board[y][x] === null) {
+      this.board[y][x] = this.#ATTACKED;
+      return 0;
+    }
+
+    // handle hits
+    const hitShip = this.board[y][x];
+    hitShip.hit();
+    this.board[y][x] = this.#ATTACKED;
 
     return 1;
   }
