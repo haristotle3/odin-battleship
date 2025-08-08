@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "watch": "jest --watch",
     "build": "webpack",
     "merge": "git checkout gh-pages && git merge main --no-edit && git add dist -f && git commit -m 'Deployment Commit'",
     "dev": "webpack serve",
