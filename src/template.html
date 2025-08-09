@@ -6,5 +6,39 @@
     <link rel="icon" type="image/x-icon" href="assets/icon.png" />
     <title>Battle Ship</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Battleship</h1>
+    </header>
+
+    <main>
+      <div class="information">
+        <p>Place Ships</p>
+      </div>
+
+      <div class="game-container">
+        <div class="play-container">
+          <p class="player-name">Player 1</p>
+          <div id="board-1" class="board"></div>
+          <div class="harbour"></div>
+          <div class="buttons-container">
+            <button id="left-randomize">Randomize</button>
+            <button id="left-ready">Ready</button>
+          </div>
+        </div>
+
+        <button id="play-button">Play!</button>
+
+        <div class="play-container">
+          <p class="player-name">Player 2</p>
+          <div id="board-2" class="board"></div>
+          <div class="harbour"></div>
+          <div class="buttons-container">
+            <button id="right-randomize">Randomize</button>
+            <button id="right-ready">Ready</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>

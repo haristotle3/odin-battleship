@@ -1,0 +1,133 @@
+@font-face {
+  font-family: "Bebas Neue";
+  src: url(./assets/BebasNeue-Regular.ttf);
+}
+
+* {
+  font-family: "sans-serif";
+  color: white;
+}
+
+body {
+  background-image: url(assets/background.jpg);
+}
+
+header h1 {
+  font-family: "Bebas Neue";
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.information {
+  font-size: large;
+  text-align: center;
+  margin: 18px 0;
+}
+
+.game-container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 0.2fr 1fr;
+}
+
+.play-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.player-name {
+  text-align: center;
+}
+
+.board {
+  height: 400px;
+  width: 400px;
+  display: grid;
+  grid-template: repeat(10, 40px) / repeat(10, 40px);
+}
+
+.board .block {
+  box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid gray;
+}
+
+.harbour {
+  width: 400px;
+  height: 100px;
+
+  display: grid;
+  row-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.buttons-container {
+  width: 400px;
+  height: 50px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.buttons-container > * {
+  height: 36px;
+  border-radius: 16px 8px;
+  border: none;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+#left-randomize,
+#right-randomize {
+  background-image: linear-gradient(
+    45deg,
+    rgb(98, 255, 234),
+    rgba(50, 50, 197, 0.589)
+  );
+}
+
+#left-randomize:hover,
+#right-randomize:hover {
+  background-image: linear-gradient(
+    45deg,
+    rgba(50, 50, 197, 0.589),
+    rgb(98, 255, 234)
+  );
+}
+
+#left-ready,
+#right-ready {
+  background-image: linear-gradient(
+    45deg,
+    rgb(98, 255, 124),
+    rgba(28, 124, 49, 0.884)
+  );
+}
+
+#left-ready:hover,
+#right-ready:hover {
+  background-image: linear-gradient(
+    45deg,
+    rgba(28, 124, 49, 0.884),
+    rgb(98, 255, 124)
+  );
+}
+
+#play-button {
+  cursor: pointer;
+  font-size: large;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid white;
+  color: white;
+  background-image: radial-gradient(rgb(37, 182, 240), rgb(131, 255, 203));
+}
+
+#play-button:hover {
+  border: 1px solid black;
+  background-image: radial-gradient(rgb(37, 182, 240), rgb(98, 190, 152));
+}
