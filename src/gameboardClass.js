@@ -1,3 +1,4 @@
+import { Harbour } from "./shipClass";
 export default class Gameboard {
   #ROW_SIZE = 10;
   #COL_SIZE = 10;
@@ -8,6 +9,7 @@ export default class Gameboard {
     this.board = Array.from({ length: this.#ROW_SIZE }, () =>
       new Array(this.#COL_SIZE).fill(null)
     );
+    this.harbour = new Harbour();
     this.shipLocations = new Map();
     this.ships = new Set();
   }
