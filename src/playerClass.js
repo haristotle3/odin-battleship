@@ -1,10 +1,7 @@
-import { Harbour } from "./shipClass.js";
-import Gameboard from "./gameboardClass.js";
 export default class Player {
-  constructor(name) {
+  constructor(name, gameboard) {
     this.name = name;
-    this.gameboard = new Gameboard();
-    this.ships = new Harbour();
+    this.gameboard = gameboard
   }
 }
 
