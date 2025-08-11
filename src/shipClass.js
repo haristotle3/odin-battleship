@@ -21,7 +21,7 @@ export class Harbour {
     this.carrier = new Ship(5, "Carrier");
     this.battleship = new Ship(4, "Battleship");
     this.cruiser = new Ship(3, "Cruiser");
-    this.Submarine = new Ship(3, "Submarine");
+    this.submarine = new Ship(3, "Submarine");
     this.destroyer = new Ship(2, "Destroyer");
   }
 }
