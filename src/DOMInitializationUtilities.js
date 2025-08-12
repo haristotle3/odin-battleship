@@ -13,13 +13,13 @@ export default class DOMInitializationUtilities {
   static #enableShipRotation(gameboard, ship) {
     ship.addEventListener("click", () => {
       ship.classList.toggle("vertical");
-      if (!this.#placeShipDiv(gameboard, ship.id, ship.parentElement)) {
+      if (!this.placeShipDiv(gameboard, ship.id, ship.parentElement)) {
         ship.classList.toggle("vertical");
       }
     });
   }
 
-  static #placeShipDiv(gameboard, shipID, dropLocation) {
+  static placeShipDiv(gameboard, shipID, dropLocation) {
     const SHIP_ID = shipID;
     const shipDropped = document.getElementById(SHIP_ID);
 
@@ -47,7 +47,7 @@ export default class DOMInitializationUtilities {
       return;
     }
 
-    if (!this.#placeShipDiv(gameboard, SHIP_ID, dropLocation)) return null;
+    if (!this.placeShipDiv(gameboard, SHIP_ID, dropLocation)) return null;
 
     if (shipDropped.parentElement.classList.contains("harbour"))
       this.#enableShipRotation(gameboard, shipDropped);
