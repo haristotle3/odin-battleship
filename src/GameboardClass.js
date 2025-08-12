@@ -1,4 +1,4 @@
-import { Harbour } from "./shipClass";
+import { Harbour } from "./ShipClass";
 
 const ATTACKED = -1;
 const ALL_SHIPS_SUNK = 100;

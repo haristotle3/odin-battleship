@@ -1,5 +1,5 @@
-import Player, { Computer } from "./playerClass.js";
-import Gameboard from "./gameboardClass.js";
+import Player, { Computer } from "./PlayerClass.js";
+import Gameboard from "./GameboardClass.js";
 
 export default class GameController {
   constructor(playerOneName, playerTwoName, versusComputer) {
