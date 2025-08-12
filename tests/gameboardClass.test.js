@@ -2,9 +2,9 @@ import Gameboard from "../src/gameboardClass.js";
 import Ship from "../src/shipClass.js";
 
 const gameboard = new Gameboard();
-const destroyer = new Ship(2, "Destroyer");
-const submarine = new Ship(3, "Submarine");
-const battleship = new Ship(4, "Battleship");
+const destroyer = gameboard.harbour.destroyer;
+const submarine = gameboard.harbour.submarine;
+const battleship = gameboard.harbour.battleship;
 
 describe("Test Gameboard ship placement", () => {
   // afterAll(() => {
