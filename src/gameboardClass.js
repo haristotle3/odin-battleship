@@ -105,12 +105,19 @@ export default class Gameboard {
       isHorizontal
     );
     this.#saveToMapAndSet(ship, shipPlacementCoordinates);
+
     return 1;
   }
 
   #allShipsSunk() {
     const shipsArray = [...this.ships];
     return shipsArray.every((ship) => ship.isSunk());
+  }
+
+  allShipsPlaced() {
+    return Object.keys(this.harbour).every((ship) =>
+      this.ships.has(this.harbour[ship])
+    );
   }
 
   receiveAttack(y, x) {
