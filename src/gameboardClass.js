@@ -1,9 +1,12 @@
 import { Harbour } from "./shipClass";
+
+const ATTACKED = -1;
+const ALL_SHIPS_SUNK = 100;
+
+export { ATTACKED, ALL_SHIPS_SUNK };
 export default class Gameboard {
   #ROW_SIZE = 10;
   #COL_SIZE = 10;
-  #ATTACKED = -1;
-  #ALL_SHIPS_SUNK = 100;
 
   constructor() {
     this.board = Array.from({ length: this.#ROW_SIZE }, () =>
@@ -34,14 +37,7 @@ export default class Gameboard {
     return false;
   }
 
-  placeShip(ship, startY, startX, isHorizontal) {
-    if (!this.#isValidStartLocation(ship.length, startY, startX, isHorizontal))
-      return 0;
-
-    if (this.#isShipOverlapping(ship.length, startY, startX, isHorizontal))
-      return 0;
-
-    // get placement coordinates
+  #getPlacementCoordinates(ship, startY, startX, isHorizontal) {
     const shipPlacementCoordinates = [];
     if (isHorizontal) {
       for (let col = startX; col < startX + ship.length; col++)
@@ -51,16 +47,10 @@ export default class Gameboard {
         shipPlacementCoordinates.push([row, startX]);
     }
 
-    // remove ship from old location
-    if (this.shipLocations.get(ship.name)) {
-      const oldPlacementCoordinates = this.shipLocations.get(ship.name);
-      oldPlacementCoordinates.forEach((coordinate) => {
-        const [y, x] = [coordinate[0], coordinate[1]];
-        this.board[y][x] = null;
-      });
-    }
+    return shipPlacementCoordinates;
+  }
 
-    // save to map and set
+  #saveToMapAndSet(ship, shipPlacementCoordinates) {
     this.shipLocations.set(ship.name, shipPlacementCoordinates);
     this.ships.add(ship);
     // update board
@@ -68,7 +58,53 @@ export default class Gameboard {
       const [y, x] = [coordinate[0], coordinate[1]];
       this.board[y][x] = ship;
     });
+    return;
+  }
 
+  placeShip(ship, startY, startX, isHorizontal) {
+    // remove ship from old location
+    let oldStartX, oldStartY, oldIsHorizontal;
+    if (this.shipLocations.get(ship.name)) {
+      const oldPlacementCoordinates = this.shipLocations.get(ship.name);
+      [oldStartY, oldStartX] = [
+        oldPlacementCoordinates[0][0],
+        oldPlacementCoordinates[0][1],
+      ];
+      oldIsHorizontal = (() => {
+        if (oldPlacementCoordinates[1][0] === oldStartY) return true;
+        return false;
+      })();
+
+      oldPlacementCoordinates.forEach((coordinate) => {
+        const [y, x] = [coordinate[0], coordinate[1]];
+        this.board[y][x] = null;
+      });
+      this.shipLocations.set(ship.name, []);
+    }
+
+    if (
+      !this.#isValidStartLocation(ship.length, startY, startX, isHorizontal) ||
+      this.#isShipOverlapping(ship.length, startY, startX, isHorizontal)
+    ) {
+      if (this.shipLocations.get(ship.name)) {
+        const shipOldPlacementCoordinates = this.#getPlacementCoordinates(
+          ship,
+          oldStartY,
+          oldStartX,
+          oldIsHorizontal
+        );
+        this.#saveToMapAndSet(ship, shipOldPlacementCoordinates);
+      }
+      return 0;
+    }
+
+    const shipPlacementCoordinates = this.#getPlacementCoordinates(
+      ship,
+      startY,
+      startX,
+      isHorizontal
+    );
+    this.#saveToMapAndSet(ship, shipPlacementCoordinates);
     return 1;
   }
 
@@ -84,20 +120,20 @@ export default class Gameboard {
     // returns 100 on all ships sunk
 
     // handle invalid shot (already attacked)
-    if (this.board[y][x] === this.#ATTACKED) return -1;
+    if (this.board[y][x] === ATTACKED) return -1;
 
     // handle missed shot
     if (this.board[y][x] === null) {
-      this.board[y][x] = this.#ATTACKED;
+      this.board[y][x] = ATTACKED;
       return 0;
     }
 
     // handle hits
     const hitShip = this.board[y][x];
     hitShip.hit();
-    this.board[y][x] = this.#ATTACKED;
+    this.board[y][x] = ATTACKED;
 
-    if (this.#allShipsSunk()) return this.#ALL_SHIPS_SUNK;
+    if (this.#allShipsSunk()) return ALL_SHIPS_SUNK;
 
     return 1;
   }
