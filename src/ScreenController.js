@@ -1,6 +1,6 @@
 import GameController from "./GameController";
 
-class DOMUtilities {
+class DOMInitializationUtilities {
   constructor(gameController) {
     this.gameController = gameController;
   }
@@ -156,7 +156,7 @@ class DOMUtilities {
 export default class ScreenController {
   constructor() {
     this.gameController = new GameController();
-    this.domUtils = new DOMUtilities(this.gameController);
+    this.domUtils = new DOMInitializationUtilities(this.gameController);
 
     this.player1BoardDiv = this.domUtils.createBoard("board-1");
     this.player2BoardDiv = this.domUtils.createBoard("board-2");
