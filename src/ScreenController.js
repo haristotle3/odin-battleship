@@ -1,82 +1,45 @@
 import GameController from "./GameController";
 
 class DOMInitializationUtilities {
-  constructor(gameController) {
-    this.gameController = gameController;
-  }
+  constructor() {}
 
-  #getShipName(shipID) {
+  static #getShipName(shipID) {
     return shipID.split("-")[2];
   }
 
-  #getPlayerNumber(shipID) {
-    return Number(shipID.split("-")[1]);
-  }
-
-  #getRealShip(shipID) {
-    const playerNumber = this.#getPlayerNumber(shipID);
+  static #getRealShip(gameboard, shipID) {
     const shipName = this.#getShipName(shipID);
-    switch (playerNumber) {
-      case 1:
-        return this.gameController.player1.gameboard.harbour[shipName];
-      case 2:
-        return this.gameController.player2.gameboard.harbour[shipName];
-    }
+    return gameboard.harbour[shipName];
   }
 
-  #enableShipRotation(ship) {
+  static #enableShipRotation(gameboard, ship) {
     ship.addEventListener("click", () => {
       ship.classList.toggle("vertical");
-      if (!this.#placeShipDiv(ship.id, ship.parentElement)) {
+      if (!this.#placeShipDiv(gameboard, ship.id, ship.parentElement)) {
         ship.classList.toggle("vertical");
       }
     });
   }
 
-  #placeShipDiv(shipID, dropLocation) {
+  static #placeShipDiv(gameboard, shipID, dropLocation) {
     const SHIP_ID = shipID;
     const shipDropped = document.getElementById(SHIP_ID);
 
-    const realShip = this.#getRealShip(SHIP_ID);
+    const realShip = this.#getRealShip(gameboard, SHIP_ID);
     const [startY, startX] = [
       Number(dropLocation.dataset.row),
       Number(dropLocation.dataset.col),
     ];
 
     const isHorizontal = !shipDropped.classList.contains("vertical");
-    const boardNumber = this.#getPlayerNumber(SHIP_ID);
 
-    switch (boardNumber) {
-      case 1:
-        if (
-          !this.gameController.player1.gameboard.placeShip(
-            realShip,
-            startY,
-            startX,
-            isHorizontal
-          )
-        ) {
-          return null;
-        }
-        break;
-      case 2:
-        if (
-          !this.gameController.player2.gameboard.placeShip(
-            realShip,
-            startY,
-            startX,
-            isHorizontal
-          )
-        ) {
-          return null;
-        }
-        break;
+    if (!gameboard.placeShip(realShip, startY, startX, isHorizontal)) {
+      return null;
     }
-
     return 1;
   }
 
-  #shipDropHandler(e, dropLocation) {
+  static #shipDropHandler(e, gameboard, dropLocation) {
     e.preventDefault();
     const SHIP_ID = e.dataTransfer.getData("text");
     const shipDropped = document.getElementById(SHIP_ID);
@@ -86,10 +49,10 @@ class DOMInitializationUtilities {
       return;
     }
 
-    if (!this.#placeShipDiv(SHIP_ID, dropLocation)) return null;
+    if (!this.#placeShipDiv(gameboard, SHIP_ID, dropLocation)) return null;
 
     if (shipDropped.parentElement.classList.contains("harbour"))
-      this.#enableShipRotation(shipDropped);
+      this.#enableShipRotation(gameboard, shipDropped);
 
     const shipParent = shipDropped.parentElement;
     shipParent.removeChild(shipDropped);
@@ -98,7 +61,7 @@ class DOMInitializationUtilities {
     return;
   }
 
-  #createShip(id, length) {
+  static #createShip(id, length) {
     const ship = document.createElement("div");
     ship.classList.add("ship");
     ship.id = id;
@@ -117,7 +80,7 @@ class DOMInitializationUtilities {
     return ship;
   }
 
-  createBoard(boardID) {
+  static createBoard(gameboard, boardID) {
     const board = document.querySelector(`#${boardID}`);
     board.style.position = "relative";
     board.style.zIndex = 1;
@@ -133,7 +96,9 @@ class DOMInitializationUtilities {
           e.preventDefault();
         });
 
-        block.addEventListener("drop", (e) => this.#shipDropHandler(e, block));
+        block.addEventListener("drop", (e) =>
+          this.#shipDropHandler(e, gameboard, block)
+        );
 
         board.appendChild(block);
       }
@@ -141,7 +106,7 @@ class DOMInitializationUtilities {
     return board;
   }
 
-  dockShips(playerClass) {
+  static dockShips(playerClass) {
     const harbour = document.querySelector(`.${playerClass} .harbour`);
 
     harbour.appendChild(this.#createShip(`${playerClass}-carrier`, 5));
@@ -156,11 +121,18 @@ class DOMInitializationUtilities {
 export default class ScreenController {
   constructor() {
     this.gameController = new GameController();
-    this.domUtils = new DOMInitializationUtilities(this.gameController);
+    this.player1 = this.gameController.player1;
+    this.player2 = this.gameController.player2;
 
-    this.player1BoardDiv = this.domUtils.createBoard("board-1");
-    this.player2BoardDiv = this.domUtils.createBoard("board-2");
-    this.player1HarbourDiv = this.domUtils.dockShips(`player-1`);
-    this.player2HarbourDiv = this.domUtils.dockShips(`player-2`);
+    this.player1BoardDiv = DOMInitializationUtilities.createBoard(
+      this.player1.gameboard,
+      "board-1"
+    );
+    this.player2BoardDiv = DOMInitializationUtilities.createBoard(
+      this.player2.gameboard,
+      "board-2"
+    );
+    this.player1HarbourDiv = DOMInitializationUtilities.dockShips(`player-1`);
+    this.player2HarbourDiv = DOMInitializationUtilities.dockShips(`player-2`);
   }
 }
