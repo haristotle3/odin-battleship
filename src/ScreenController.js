@@ -1,13 +1,8 @@
 import GameController from "./GameController";
 
-export default class ScreenController {
-  constructor() {
-    this.gameController = new GameController();
-
-    this.player1BoardDiv = this.#createBoard("board-1");
-    this.player2BoardDiv = this.#createBoard("board-2");
-    this.player1HarbourDiv = this.#dockShips(`player-1`);
-    this.player2HarbourDiv = this.#dockShips(`player-2`);
+class DOMUtilities {
+  constructor(gameController) {
+    this.gameController = gameController;
   }
 
   #getShipName(shipID) {
@@ -103,7 +98,26 @@ export default class ScreenController {
     return;
   }
 
-  #createBoard(boardID) {
+  #createShip(id, length) {
+    const ship = document.createElement("div");
+    ship.classList.add("ship");
+    ship.id = id;
+    ship.style.width = `${length * 40}px`;
+    ship.draggable = true;
+
+    ship.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text", ship.id);
+      setTimeout(() => ship.classList.toggle("dragging"), 0);
+    });
+
+    ship.addEventListener("dragend", () => {
+      ship.classList.toggle("dragging");
+    });
+
+    return ship;
+  }
+
+  createBoard(boardID) {
     const board = document.querySelector(`#${boardID}`);
     board.style.position = "relative";
     board.style.zIndex = 1;
@@ -127,26 +141,7 @@ export default class ScreenController {
     return board;
   }
 
-  #createShip(id, length) {
-    const ship = document.createElement("div");
-    ship.classList.add("ship");
-    ship.id = id;
-    ship.style.width = `${length * 40}px`;
-    ship.draggable = true;
-
-    ship.addEventListener("dragstart", (e) => {
-      e.dataTransfer.setData("text", ship.id);
-      setTimeout(() => ship.classList.toggle("dragging"), 0);
-    });
-
-    ship.addEventListener("dragend", () => {
-      ship.classList.toggle("dragging");
-    });
-
-    return ship;
-  }
-
-  #dockShips(playerClass) {
+  dockShips(playerClass) {
     const harbour = document.querySelector(`.${playerClass} .harbour`);
 
     harbour.appendChild(this.#createShip(`${playerClass}-carrier`, 5));
@@ -156,5 +151,16 @@ export default class ScreenController {
     harbour.appendChild(this.#createShip(`${playerClass}-destroyer`, 2));
 
     return;
+  }
+}
+export default class ScreenController {
+  constructor() {
+    this.gameController = new GameController();
+    this.domUtils = new DOMUtilities(this.gameController);
+
+    this.player1BoardDiv = this.domUtils.createBoard("board-1");
+    this.player2BoardDiv = this.domUtils.createBoard("board-2");
+    this.player1HarbourDiv = this.domUtils.dockShips(`player-1`);
+    this.player2HarbourDiv = this.domUtils.dockShips(`player-2`);
   }
 }
