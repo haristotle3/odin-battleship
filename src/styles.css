@@ -116,20 +116,37 @@ header h1 {
   );
 }
 
-#play-button {
+.play-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+#play-computer-button,
+#play-human-button {
   cursor: pointer;
   font-size: large;
   height: 150px;
   width: 150px;
-  border-radius: 50%;
+  border-radius: 40%;
   border: 2px solid white;
   color: white;
-  background-image: radial-gradient(rgb(37, 182, 240), rgb(131, 255, 203));
 }
 
-#play-button:hover {
+#play-computer-button {
+  background-image: radial-gradient(rgb(37, 182, 240), rgb(131, 255, 203));
+}
+#play-human-button {
+  background-image: radial-gradient(rgb(33, 221, 74), rgb(171, 255, 175));
+}
+
+#play-computer-button:hover {
   border: 1px solid black;
   background-image: radial-gradient(rgb(37, 182, 240), rgb(98, 190, 152));
+}
+#play-human-button:hover {
+  border: 1px solid black;
+  background-image: radial-gradient(rgb(33, 221, 74), rgb(117, 173, 120));
 }
 
 /* Ship styling */
@@ -180,4 +197,8 @@ header h1 {
 
 .dragging {
   display: none;
+}
+
+.hidden {
+  visibility: hidden;
 }
