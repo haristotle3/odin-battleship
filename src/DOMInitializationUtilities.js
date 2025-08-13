@@ -81,8 +81,6 @@ export default class DOMInitializationUtilities {
 
   static createBoard(gameboard, boardID) {
     const board = document.querySelector(`#${boardID}`);
-    board.style.position = "relative";
-    board.style.zIndex = 1;
 
     for (let row = 0; row < 10; row++)
       for (let col = 0; col < 10; col++) {
