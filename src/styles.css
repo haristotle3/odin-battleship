@@ -123,7 +123,9 @@ header h1 {
 }
 
 #play-computer-button,
-#play-human-button {
+#play-human-button,
+#pass-button,
+#start-button {
   cursor: pointer;
   font-size: large;
   height: 150px;
@@ -133,11 +135,33 @@ header h1 {
   color: white;
 }
 
+#start-button {
+  border-radius: 45px;
+  height: 85px;
+  background-image: radial-gradient(rgb(233, 65, 65), rgb(255, 170, 131));
+}
+
+#pass-button {
+  border-radius: 45px;
+  height: 85px;
+  background-image: radial-gradient(rgb(243, 239, 25), rgb(241, 217, 166));
+}
+
 #play-computer-button {
   background-image: radial-gradient(rgb(37, 182, 240), rgb(131, 255, 203));
 }
 #play-human-button {
   background-image: radial-gradient(rgb(33, 221, 74), rgb(171, 255, 175));
+}
+
+#start-button:hover {
+border: 1px solid black;
+  background-image: radial-gradient(rgb(224, 93, 41), rgb(235, 51, 27));
+}
+
+#pass-button:hover {
+  border: 1px solid black;
+  background-image: radial-gradient(rgb(224, 221, 27), rgb(219, 179, 91));
 }
 
 #play-computer-button:hover {
@@ -147,6 +171,13 @@ header h1 {
 #play-human-button:hover {
   border: 1px solid black;
   background-image: radial-gradient(rgb(33, 221, 74), rgb(117, 173, 120));
+}
+
+#play-computer-button.hidden,
+#play-human-button.hidden,
+#pass-button.hidden,
+#start-button.hidden {
+  display: none;
 }
 
 /* Ship styling */
