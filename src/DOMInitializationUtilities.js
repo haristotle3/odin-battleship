@@ -34,6 +34,14 @@ export default class DOMInitializationUtilities {
     if (!gameboard.placeShip(realShip, startY, startX, isHorizontal)) {
       return null;
     }
+
+    if (shipDropped.parentElement.classList.contains("harbour"))
+      this.#enableShipRotation(gameboard, shipDropped);
+
+    const shipParent = shipDropped.parentElement;
+    shipParent.removeChild(shipDropped);
+    dropLocation.appendChild(shipDropped);
+    
     return 1;
   }
 
@@ -48,13 +56,6 @@ export default class DOMInitializationUtilities {
     }
 
     if (!this.placeShipDiv(gameboard, SHIP_ID, dropLocation)) return null;
-
-    if (shipDropped.parentElement.classList.contains("harbour"))
-      this.#enableShipRotation(gameboard, shipDropped);
-
-    const shipParent = shipDropped.parentElement;
-    shipParent.removeChild(shipDropped);
-    dropLocation.appendChild(shipDropped);
 
     return;
   }
