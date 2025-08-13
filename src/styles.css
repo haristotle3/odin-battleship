@@ -41,6 +41,8 @@ header h1 {
 }
 
 .board {
+  position: relative;
+  z-index: 1;
   height: 400px;
   width: 400px;
   display: grid;
@@ -155,7 +157,7 @@ header h1 {
 }
 
 #start-button:hover {
-border: 1px solid black;
+  border: 1px solid black;
   background-image: radial-gradient(rgb(224, 93, 41), rgb(235, 51, 27));
 }
 
