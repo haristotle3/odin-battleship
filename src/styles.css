@@ -235,3 +235,7 @@ header h1 {
 .hidden {
   visibility: hidden;
 }
+
+.ship.hidden {
+  display: none;
+}
