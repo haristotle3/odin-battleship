@@ -1,8 +1,7 @@
-import GameController from "./GameController";
 import DOMInitializationUtilities from "./DOMInitializationUtilities";
 export default class ScreenController {
-  constructor() {
-    this.gameController = new GameController();
+  constructor(gameController) {
+    this.gameController = gameController;
     this.player1 = this.gameController.player1;
     this.player2 = this.gameController.player2;
 
@@ -14,7 +13,7 @@ export default class ScreenController {
       this.player2.gameboard,
       "board-2"
     );
-    this.player1HarbourDiv = DOMInitializationUtilities.dockShips(`player-1`);
-    this.player2HarbourDiv = DOMInitializationUtilities.dockShips(`player-2`);
+    this.player1HarbourDiv = DOMInitializationUtilities.dockShips("player-1");
+    this.player2HarbourDiv = DOMInitializationUtilities.dockShips("player-2");
   }
 }
