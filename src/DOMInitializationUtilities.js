@@ -41,7 +41,7 @@ export default class DOMInitializationUtilities {
     const shipParent = shipDropped.parentElement;
     shipParent.removeChild(shipDropped);
     dropLocation.appendChild(shipDropped);
-    
+
     return 1;
   }
 
@@ -69,6 +69,10 @@ export default class DOMInitializationUtilities {
 
     ship.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("text", ship.id);
+      // Without setTimout, the toggle method gets executed immediately,
+      // which means the browser halts initating the drag event and has to update the DOM
+      // setTimeout makes it so that toggle method's execution is added to the task queue.
+      // which in turn makes the method execute after drag event is finished.
       setTimeout(() => ship.classList.toggle("dragging"), 0);
     });
 
