@@ -99,10 +99,8 @@ class DOMComputerGameInitializer extends DOMInitializer {
     const readyButton = document.getElementById(`${playerClass}-ready`);
 
     readyButton.addEventListener("click", () => {
-      const informationP = document.querySelector(".information > p.alert");
-
       if (!gameboard.allShipsPlaced()) {
-        informationP.textContent = "Please place all the ships!";
+        pAlert.textContent = "Please place all the ships!";
         return;
       }
 
@@ -123,10 +121,10 @@ class DOMHumanGameInitializer extends DOMInitializer {
 
     passButton.addEventListener("click", () => {
       pAlert.textContent = "Place ships";
-      
+
       player2PlayContainer.classList.remove("hidden");
       player1PlayContainer.classList.add("hidden");
-      
+
       passButton.classList.add("hidden");
     });
 
@@ -143,10 +141,8 @@ class DOMHumanGameInitializer extends DOMInitializer {
     const readyButton = document.getElementById(`${playerClass}-ready`);
 
     readyButton.addEventListener("click", () => {
-      const informationP = document.querySelector(".information > p.alert");
-
       if (!gameboard.allShipsPlaced()) {
-        informationP.textContent = "Please place all the ships!";
+        pAlert.textContent = "Please place all the ships!";
         return;
       }
 
