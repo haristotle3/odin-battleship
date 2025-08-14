@@ -1,9 +1,11 @@
 import { Harbour } from "./ShipClass";
 
-const ATTACKED = -1;
+const ALREADY_ATTACKED = -1;
+const MISSED = 0;
+const HIT = 1;
 const ALL_SHIPS_SUNK = 100;
 
-export { ATTACKED, ALL_SHIPS_SUNK };
+export { ALREADY_ATTACKED, MISSED, HIT, ALL_SHIPS_SUNK };
 export default class Gameboard {
   #ROW_SIZE = 10;
   #COL_SIZE = 10;
@@ -121,27 +123,22 @@ export default class Gameboard {
   }
 
   receiveAttack(y, x) {
-    // returns -1 on invalid shot
-    // returns 0 on missed shot
-    // returns 1 on hit
-    // returns 100 on all ships sunk
-
     // handle invalid shot (already attacked)
-    if (this.board[y][x] === ATTACKED) return -1;
+    if (this.board[y][x] === ALREADY_ATTACKED) return ALREADY_ATTACKED;
 
     // handle missed shot
     if (this.board[y][x] === null) {
-      this.board[y][x] = ATTACKED;
-      return 0;
+      this.board[y][x] = ALREADY_ATTACKED;
+      return MISSED;
     }
 
     // handle hits
     const hitShip = this.board[y][x];
     hitShip.hit();
-    this.board[y][x] = ATTACKED;
+    this.board[y][x] = ALREADY_ATTACKED;
 
     if (this.#allShipsSunk()) return ALL_SHIPS_SUNK;
 
-    return 1;
+    return HIT;
   }
 }
