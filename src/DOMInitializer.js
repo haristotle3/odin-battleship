@@ -112,7 +112,54 @@ class DOMComputerGameInitializer extends DOMInitializer {
   }
 }
 
+class DOMHumanGameInitializer extends DOMInitializer {
+  constructor(gameController) {
+    super(gameController);
 
+    this.initializeNonPlayButtons(
+      "player-2",
+      this.gameController.player2.gameboard
+    );
+
+    passButton.addEventListener("click", () => {
+      pAlert.textContent = "Place ships";
+      
+      player2PlayContainer.classList.remove("hidden");
+      player1PlayContainer.classList.add("hidden");
+      
+      passButton.classList.add("hidden");
+    });
+
+    startButton.addEventListener("click", () => {
+      this.hideAllShips();
+      this.hideAllButtons();
+      player1PlayContainer.classList.remove("hidden");
+      startButton.classList.add("hidden");
+      EventBus.dispatchEvent(new CustomEvent("startGame"));
+    });
+  }
+
+  initializeReadyButton(playerClass, gameboard) {
+    const readyButton = document.getElementById(`${playerClass}-ready`);
+
+    readyButton.addEventListener("click", () => {
+      const informationP = document.querySelector(".information > p.alert");
+
+      if (!gameboard.allShipsPlaced()) {
+        informationP.textContent = "Please place all the ships!";
+        return;
+      }
+
+      if (playerClass === "player-1") {
+        pAlert.textContent = "Please pass the device!";
+        passButton.classList.remove("hidden");
+      } else {
+        pAlert.textContent = "Please start the game!";
+        startButton.classList.remove("hidden");
+      }
+    });
+  }
+}
 
 export {
   DOMComputerGameInitializer,
