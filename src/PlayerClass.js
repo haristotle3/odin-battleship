@@ -1,7 +1,11 @@
 export default class Player {
   constructor(name, gameboard) {
     this.name = name;
-    this.gameboard = gameboard
+    this.gameboard = gameboard;
+  }
+
+  attack(enemyGameboard, attackY, attackX) {
+    return enemyGameboard.receiveAttack(attackY, attackX);
   }
 }
 
