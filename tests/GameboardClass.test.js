@@ -1,5 +1,4 @@
-import Gameboard from "../src/gameboardClass.js";
-import Ship from "../src/shipClass.js";
+import Gameboard from "../src/GameboardClass.js";
 
 const gameboard = new Gameboard();
 const destroyer = gameboard.harbour.destroyer;

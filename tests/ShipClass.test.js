@@ -1,4 +1,4 @@
-import Ship from "../src/shipClass.js";
+import Ship from "../src/ShipClass.js";
 
 describe("Test Ship Class", () => {
   const carrier = new Ship(5, "Carrier");
