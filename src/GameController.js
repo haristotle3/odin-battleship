@@ -1,5 +1,10 @@
 import Player, { Computer } from "./PlayerClass.js";
-import Gameboard, { ALREADY_ATTACKED } from "./GameboardClass.js";
+import Gameboard, {
+  ALL_SHIPS_SUNK,
+  ALREADY_ATTACKED,
+  HIT,
+  MISSED,
+} from "./GameboardClass.js";
 
 export default class GameController {
   constructor(playerOneName, playerTwoName, versusComputer) {
@@ -26,9 +31,15 @@ export default class GameController {
       attackX
     );
 
-    if (attackResult === ALREADY_ATTACKED) return null;
-
-    this.#switchTurns();
-    return attackResult;
+    switch (attackResult) {
+      case ALREADY_ATTACKED:
+        return null;
+      case ALL_SHIPS_SUNK:
+      case HIT:
+        return attackResult;
+      case MISSED:
+        this.#switchTurns();
+        return MISSED;
+    }
   }
 }
