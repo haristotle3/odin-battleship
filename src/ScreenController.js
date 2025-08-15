@@ -6,11 +6,7 @@ import {
   pAlert,
   DOMComputerGameInitializer,
 } from "./DOMInitializer";
-import {
-  MISSED,
-  HIT,
-  ALL_SHIPS_SUNK,
-} from "./GameboardClass";
+import { MISSED, HIT, ALL_SHIPS_SUNK } from "./GameboardClass";
 import EventBus from "./EventBus";
 
 class ScreenController {
@@ -128,6 +124,7 @@ class ComputerGameScreenController extends ScreenController {
       "player-2",
       this.gameController.player2.gameboard
     );
+    this.COMPUTER_THINKING_TIME = 850;
   }
 
   switchPlayersUI() {
@@ -146,13 +143,15 @@ class ComputerGameScreenController extends ScreenController {
     return attackedBlock;
   }
 
-  computerPlayTurn() {
+  async computerPlayTurn() {
     let attackResult = 1,
       coordinates;
 
     while (attackResult === HIT) {
+      await new Promise((resolve) =>
+        setInterval(resolve, this.COMPUTER_THINKING_TIME)
+      );
       ({ attackResult, coordinates } = this.gameController.playTurn());
-      console.log(coordinates);
       this.updateUI(this.#getAttackedBlock(coordinates), attackResult);
     }
     this.gameController.switchTurns();
@@ -162,12 +161,12 @@ class ComputerGameScreenController extends ScreenController {
   boardClickHandlerInitializer() {
     this.initUI();
     this.player2BoardDiv.addEventListener("click", (e) => {
-      const COMPUTER_THINKING_TIME = 1250;
       const clickHandlerReturnValue = this.blockClickHandler(e);
       if (clickHandlerReturnValue !== MISSED) return null;
-      setTimeout(() => {
-        this.computerPlayTurn();
-      }, COMPUTER_THINKING_TIME);
+      setTimeout(
+        async () => await this.computerPlayTurn(),
+        this.COMPUTER_THINKING_TIME
+      );
     });
   }
 }
