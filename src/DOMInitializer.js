@@ -49,24 +49,28 @@ class DOMInitializer {
     return 1;
   }
 
+  static randomizeShipPlacement(playerClass, gameboard) {
+    const harbour = gameboard.harbour;
+    const shipNames = Object.keys(harbour);
+    const boardID = `board-${playerClass.split("-")[1]}`;
+
+    shipNames.forEach((shipName) => {
+      const shipID = `${playerClass}-${shipName}`;
+      while (
+        DOMInitializer.#randomlyRotate(shipID) &&
+        !DOMInitializationUtilities.placeShipDiv(
+          gameboard,
+          shipID,
+          DOMInitializer.#getRandomDropLocation(boardID)
+        )
+      );
+    });
+  }
+
   #initializeRandomizeButton(playerClass, gameboard) {
     const randomizeButton = document.getElementById(`${playerClass}-randomize`);
     randomizeButton.addEventListener("click", () => {
-      const harbour = gameboard.harbour;
-      const shipNames = Object.keys(harbour);
-      const boardID = `board-${playerClass.split("-")[1]}`;
-
-      shipNames.forEach((shipName) => {
-        const shipID = `${playerClass}-${shipName}`;
-        while (
-          DOMInitializer.#randomlyRotate(shipID) &&
-          !DOMInitializationUtilities.placeShipDiv(
-            gameboard,
-            shipID,
-            DOMInitializer.#getRandomDropLocation(boardID)
-          )
-        );
-      });
+      DOMInitializer.randomizeShipPlacement(playerClass, gameboard);
     });
   }
 
