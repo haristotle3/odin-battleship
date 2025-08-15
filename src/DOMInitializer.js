@@ -20,6 +20,7 @@ class DOMInitializer {
     );
 
     pAlert.textContent = "Place ships";
+    pPlayerTurn.textContent = "Click on ships on the board to rotate";
 
     player1PlayContainer.classList.remove("hidden");
 
