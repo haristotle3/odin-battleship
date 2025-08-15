@@ -11,8 +11,8 @@ export default class Player {
 }
 
 export class Computer extends Player {
-  constructor() {
-    super("Computer");
+  constructor(gameboard) {
+    super("Computer", gameboard);
   }
 
   #getRandomCoordinate() {
