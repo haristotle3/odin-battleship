@@ -31,6 +31,6 @@ export class Computer extends Player {
     )
       [randomY, randomX] = this.#getRandomCoordinate();
 
-    return returnValue;z
+    return returnValue;
   }
 }
