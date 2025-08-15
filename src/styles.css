@@ -267,5 +267,6 @@ header h1 {
 .ship.hidden.end-game {
   visibility: visible;
   display: block;
-  opacity: 30%;
+  opacity: 70%;
+  border: 4px dashed black;
 }
