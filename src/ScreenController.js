@@ -10,7 +10,6 @@ import {
   MISSED,
   HIT,
   ALL_SHIPS_SUNK,
-  ALREADY_ATTACKED,
 } from "./GameboardClass";
 import EventBus from "./EventBus";
 
@@ -122,3 +121,55 @@ class HumanGameScreenController extends ScreenController {
     super(gameController);
   }
 }
+class ComputerGameScreenController extends ScreenController {
+  constructor(gameController) {
+    super(gameController);
+    DOMComputerGameInitializer.randomizeShipPlacement(
+      "player-2",
+      this.gameController.player2.gameboard
+    );
+  }
+
+  switchPlayersUI() {
+    if (player1PlayContainer.classList.toggle("current-player"))
+      pPlayerTurn.textContent = `${this.gameController.player1.name} to play`;
+    if (player2PlayContainer.classList.toggle("current-player"))
+      pPlayerTurn.textContent = `${this.gameController.player2.name} is thinking...`;
+    return;
+  }
+
+  #getAttackedBlock(attackedCoordinates) {
+    const [y, x] = attackedCoordinates;
+    const query = `#board-1 .block[data-row="${y}"][data-col="${x}"]`;
+    const attackedBlock = document.querySelector(query);
+
+    return attackedBlock;
+  }
+
+  computerPlayTurn() {
+    let attackResult = 1,
+      coordinates;
+
+    while (attackResult === HIT) {
+      ({ attackResult, coordinates } = this.gameController.playTurn());
+      console.log(coordinates);
+      this.updateUI(this.#getAttackedBlock(coordinates), attackResult);
+    }
+    this.gameController.switchTurns();
+    return;
+  }
+
+  boardClickHandlerInitializer() {
+    this.initUI();
+    this.player2BoardDiv.addEventListener("click", (e) => {
+      const COMPUTER_THINKING_TIME = 1250;
+      const clickHandlerReturnValue = this.blockClickHandler(e);
+      if (clickHandlerReturnValue !== MISSED) return null;
+      setTimeout(() => {
+        this.computerPlayTurn();
+      }, COMPUTER_THINKING_TIME);
+    });
+  }
+}
+
+export { HumanGameScreenController, ComputerGameScreenController };
