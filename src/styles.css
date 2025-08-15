@@ -55,6 +55,16 @@ header h1 {
   border: 1px solid rgba(128, 128, 128, 0.7);
 }
 
+.block.miss {
+  background-color: rgb(133, 133, 133);
+  border: 2px solid rgb(0, 0, 0);
+}
+
+.block.hit {
+  background-color: rgb(225, 15, 15);
+  border: 2px solid rgb(0, 0, 0);
+}
+
 .harbour {
   width: 400px;
   height: 100px;
