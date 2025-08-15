@@ -4,10 +4,17 @@ import {
   player2PlayContainer,
   pPlayerTurn,
   pAlert,
+  DOMComputerGameInitializer,
 } from "./DOMInitializer";
-import { MISSED, HIT, ALL_SHIPS_SUNK } from "./GameboardClass";
+import {
+  MISSED,
+  HIT,
+  ALL_SHIPS_SUNK,
+  ALREADY_ATTACKED,
+} from "./GameboardClass";
 import EventBus from "./EventBus";
-export default class ScreenController {
+
+class ScreenController {
   constructor(gameController) {
     this.gameController = gameController;
     const player1 = this.gameController.player1;
@@ -26,19 +33,19 @@ export default class ScreenController {
 
     EventBus.addEventListener(
       "startGame",
-      this.#boardClickHandlerInitializer.bind(this)
+      this.boardClickHandlerInitializer.bind(this)
     );
     // callback will have event listeners referencing boardDivs
     // therefore binding to 'this' is necessary
   }
 
-  #initUI() {
+  initUI() {
     pPlayerTurn.textContent = `${this.gameController.player1.name} to play`;
     player1PlayContainer.classList.toggle("current-player");
     return;
   }
 
-  #switchPlayersUI() {
+  switchPlayersUI() {
     if (player1PlayContainer.classList.toggle("current-player"))
       pPlayerTurn.textContent = `${this.gameController.player1.name} to play`;
     if (player2PlayContainer.classList.toggle("current-player"))
@@ -46,7 +53,7 @@ export default class ScreenController {
     return;
   }
 
-  #endGame() {
+  endGame() {
     pPlayerTurn.textContent = " ";
     pAlert.textContent = `🎉 ${this.gameController.currentPlayer.name} wins! 🎉`;
 
@@ -65,7 +72,7 @@ export default class ScreenController {
     return;
   }
 
-  #updateUI(clickedBlock, attackResult) {
+  updateUI(clickedBlock, attackResult) {
     switch (attackResult) {
       case HIT:
         pAlert.textContent = "It's a hit!";
@@ -74,17 +81,17 @@ export default class ScreenController {
       case MISSED:
         pAlert.textContent = "It's a miss!";
         clickedBlock.classList.add("miss");
-        this.#switchPlayersUI();
+        this.switchPlayersUI();
         break;
       case ALL_SHIPS_SUNK:
         clickedBlock.classList.add("hit");
-        this.#endGame();
+        this.endGame();
         break;
     }
   }
 
-  #blockClickHandler(clickedLocation) {
-    if (/board-[12]/.test(clickedLocation.target.id)) return;
+  blockClickHandler(clickedLocation) {
+    if (/board-[12]/.test(clickedLocation.target.id)) return null;
 
     const clickedBlock = clickedLocation.target;
     const [attackedY, attackedX] = [
@@ -93,19 +100,25 @@ export default class ScreenController {
     ];
 
     const attackResult = this.gameController.playTurn(attackedY, attackedX);
-    if (attackResult === null) return;
-    this.#updateUI(clickedLocation.target, attackResult);
+    if (attackResult === null) return null;
+    this.updateUI(clickedLocation.target, attackResult);
 
-    return;
+    return attackResult;
   }
 
-  #boardClickHandlerInitializer() {
-    this.#initUI();
+  boardClickHandlerInitializer() {
+    this.initUI();
     this.player2BoardDiv.addEventListener("click", (e) =>
-      this.#blockClickHandler(e)
+      this.blockClickHandler(e)
     );
     this.player1BoardDiv.addEventListener("click", (e) =>
-      this.#blockClickHandler(e)
+      this.blockClickHandler(e)
     );
+  }
+}
+
+class HumanGameScreenController extends ScreenController {
+  constructor(gameController) {
+    super(gameController);
   }
 }
