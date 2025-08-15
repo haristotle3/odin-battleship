@@ -25,6 +25,11 @@ class DOMInitializer {
 
     playComputerButton.classList.add("hidden");
     playHumanButton.classList.add("hidden");
+
+    const player1Name = document.querySelector(".player-1 > p.player-name");
+    const player2Name = document.querySelector(".player-2 > p.player-name");
+    player1Name.textContent = `${this.gameController.player1.name}`;
+    player2Name.textContent = `${this.gameController.player2.name}`;
   }
 
   initializeNonPlayButtons(playerClass, gameboard) {
