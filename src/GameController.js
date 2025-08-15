@@ -6,17 +6,13 @@ import Gameboard, {
   MISSED,
 } from "./GameboardClass.js";
 
-export default class GameController {
-  constructor(playerOneName, playerTwoName, versusComputer) {
+class GameController {
+  constructor(playerOneName) {
     this.player1 = new Player(playerOneName, new Gameboard());
-    this.player2 = versusComputer
-      ? new Computer()
-      : new Player(playerTwoName, new Gameboard());
     this.currentPlayer = this.player1;
-    this.currentOpponent = this.player2;
   }
 
-  #switchTurns() {
+  switchTurns() {
     this.currentPlayer =
       this.currentPlayer === this.player1 ? this.player2 : this.player1;
     this.currentOpponent =
@@ -38,8 +34,10 @@ export default class GameController {
       case HIT:
         return attackResult;
       case MISSED:
-        this.#switchTurns();
+        this.switchTurns();
         return MISSED;
     }
   }
 }
+
+
