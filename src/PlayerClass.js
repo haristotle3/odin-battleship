@@ -4,8 +4,8 @@ export default class Player {
     this.gameboard = gameboard;
   }
 
-  attack(enemyGameboard, attackY, attackX) {
-    return enemyGameboard.receiveAttack(attackY, attackX);
+  attack(opponentGameboard, attackY, attackX) {
+    return opponentGameboard.receiveAttack(attackY, attackX);
   }
 }
 
