@@ -1,3 +1,4 @@
+import { ALREADY_ATTACKED } from "./GameboardClass";
 export default class Player {
   constructor(name, gameboard) {
     this.name = name;
@@ -12,5 +13,24 @@ export default class Player {
 export class Computer extends Player {
   constructor() {
     super("Computer");
+  }
+
+  #getRandomCoordinate() {
+    const randomX = Math.floor(Math.random() * 10);
+    const randomY = Math.floor(Math.random() * 10);
+
+    return [randomY, randomX];
+  }
+
+  attack(opponentGameboard) {
+    let [randomY, randomX] = this.#getRandomCoordinate();
+    let returnValue;
+    while (
+      (returnValue = opponentGameboard.receiveAttack(randomY, randomX)) ===
+      ALREADY_ATTACKED
+    )
+      [randomY, randomX] = this.#getRandomCoordinate();
+
+    return returnValue;z
   }
 }
