@@ -4,7 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="3e45d1c161903c75eb4d.png" />
-    <title>Battle Ship</title>
+    <title>Battleship</title>
   <script defer src="main.js"></script></head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Battleship</h1>
+    </header>
+
+    <main>
+      <div class="information">
+        <p class="player-turn"></p>
+        <p class="alert">Choose Game Mode</p>
+      </div>
+
+      <div class="game-container">
+        <div class="play-container player-1 hidden">
+          <p class="player-name"></p>
+          <div id="board-1" class="board"></div>
+          <div class="harbour"></div>
+          <div class="buttons-container">
+            <button id="player-1-randomize">Randomize</button>
+            <button id="player-1-ready">Ready</button>
+          </div>
+        </div>
+
+        <div class="play-buttons-container">
+          <button id="start-button" class="hidden">Start Game</button>
+          <button id="play-computer-button">Play Against Computer</button>
+          <button id="play-human-button">Play Against Human</button>
+          <button id="pass-button" class="hidden">Pass To Player 2</button>
+        </div>
+
+        <div class="play-container player-2 hidden">
+          <p class="player-name"></p>
+          <div id="board-2" class="board"></div>
+          <div class="harbour"></div>
+          <div class="buttons-container">
+            <button id="player-2-randomize">Randomize</button>
+            <button id="player-2-ready">Ready</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
