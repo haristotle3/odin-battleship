@@ -254,3 +254,18 @@ header h1 {
   pointer-events: none;
   opacity: 30%;
 }
+
+.end-game {
+  pointer-events: none;
+}
+
+.play-container.end-game {
+  pointer-events: none;
+  opacity: 100%;
+}
+
+.ship.hidden.end-game {
+  visibility: visible;
+  display: block;
+  opacity: 30%;
+}
