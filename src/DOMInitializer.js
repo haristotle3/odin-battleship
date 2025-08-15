@@ -164,4 +164,6 @@ export {
   playHumanButton,
   pAlert,
   pPlayerTurn,
+  player1PlayContainer,
+  player2PlayContainer,
 };
