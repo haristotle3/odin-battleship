@@ -40,4 +40,36 @@ class GameController {
   }
 }
 
+class HumanGameController extends GameController {
+  constructor(playerOneName, playerTwoName) {
+    super(playerOneName);
+    this.player2 = new Player(playerTwoName, new Gameboard());
+    this.currentOpponent = this.player2;
+  }
+}
 
+class ComputerGameController extends GameController {
+  constructor(playerOneName) {
+    super(playerOneName);
+    this.player2 = new Computer(new Gameboard());
+    this.currentOpponent = this.player2;
+  }
+
+  playTurn(attackY, attackX) {
+    if (this.currentPlayer === this.player1)
+      return super.playTurn(attackY, attackX);
+
+    let attackResult = ALREADY_ATTACKED,
+      coordinates;
+
+    while (attackResult === ALREADY_ATTACKED) {
+      ({ attackResult, coordinates } = this.player2.attack(
+        this.currentOpponent.gameboard
+      ));
+    }
+
+    return { attackResult, coordinates };
+  }
+}
+
+export { HumanGameController, ComputerGameController };
