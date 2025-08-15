@@ -239,3 +239,8 @@ header h1 {
 .ship.hidden {
   display: none;
 }
+
+.current-player {
+  pointer-events: none;
+  opacity: 30%;
+}
